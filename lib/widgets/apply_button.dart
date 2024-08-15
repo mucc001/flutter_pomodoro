@@ -10,12 +10,20 @@ class ApplyButton extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
+
+    final buttonWidth = screenWidth * 0.37;
+    final buttonHeight = screenHeight * 0.08;
+    final buttonTop = screenHeight * 0.78;
+    final buttonLeft = screenWidth * 0.25;
+
     return Positioned(
-      left: 94,
-      top: 522,
+      left: buttonLeft,
+      top: buttonTop,
       child: Container(
-        width: 140,
-        height: 53,
+        width: buttonWidth,
+        height: buttonHeight,
         clipBehavior: Clip.antiAlias,
         decoration: const BoxDecoration(),
         child: Stack(
@@ -41,17 +49,16 @@ class ApplyButton extends ConsumerWidget {
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(26.50),
                   ),
-                  fixedSize:
-                      const Size(140, 53), // Width and Height of the button
+                  fixedSize: Size(buttonWidth,
+                      buttonHeight), // Width and Height of the button
                 ),
-                child: const Text(
+                child: Text(
                   'Apply',
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     color: Colors.white,
-                    fontSize: 16,
+                    fontSize: screenWidth * 0.042,
                     fontWeight: FontWeight.w700,
-                    height: 0,
                   ),
                 ),
               ),

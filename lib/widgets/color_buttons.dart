@@ -9,12 +9,24 @@ class ColorButtons extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final selectedButtonIndex = ref.watch(tempColorProvider);
 
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
+
+    // Adjust the size and positioning relative to the screen size
+    final buttonSize = screenWidth * 0.1;
+    final buttonSpacing = screenWidth * 0.04;
+
+    // Calculate positions based on screen dimensions
+    final leftPosition1 = screenWidth * 0.24;
+    final leftPosition2 = leftPosition1 + buttonSize + buttonSpacing;
+    final leftPosition3 = leftPosition2 + buttonSize + buttonSpacing;
+
     return Positioned(
-      left: 88,
-      top: 450,
+      left: leftPosition1,
+      top: screenHeight * 0.67,
       child: Container(
-        width: 152,
-        height: 40,
+        width: buttonSize * 3 + buttonSpacing * 2,
+        height: buttonSize,
         child: Stack(
           children: [
             // Button red
@@ -26,8 +38,8 @@ class ColorButtons extends ConsumerWidget {
                   ref.read(tempColorProvider.notifier).state = 0;
                 },
                 child: Container(
-                  width: 40,
-                  height: 40,
+                  width: buttonSize,
+                  height: buttonSize,
                   decoration: const ShapeDecoration(
                     color: Color(0xFFF87070),
                     shape: OvalBorder(),
@@ -40,16 +52,15 @@ class ColorButtons extends ConsumerWidget {
             ),
             // Button blue
             Positioned(
-              left: 56,
+              left: buttonSize + buttonSpacing,
               top: 0,
               child: GestureDetector(
                 onTap: () {
-                  // Update the provider to indicate that button 2 is selected
                   ref.read(tempColorProvider.notifier).state = 1;
                 },
                 child: Container(
-                  width: 40,
-                  height: 40,
+                  width: buttonSize,
+                  height: buttonSize,
                   decoration: const ShapeDecoration(
                     color: Color(0xFF70F3F8),
                     shape: OvalBorder(),
@@ -62,15 +73,15 @@ class ColorButtons extends ConsumerWidget {
             ),
             // Button pink
             Positioned(
-              left: 112,
+              left: 2 * (buttonSize + buttonSpacing),
               top: 0,
               child: GestureDetector(
                 onTap: () {
                   ref.read(tempColorProvider.notifier).state = 2;
                 },
                 child: Container(
-                  width: 40,
-                  height: 40,
+                  width: buttonSize,
+                  height: buttonSize,
                   decoration: const ShapeDecoration(
                     color: Color(0xFFD881F8),
                     shape: OvalBorder(),

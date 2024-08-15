@@ -39,6 +39,8 @@ dependencies:
   cupertino_icons: ^1.0.6
   google_fonts: ^6.2.1
   mocktail: ^1.0.4
+  mockito: ^5.4.4
+  golden_toolkit: ^0.15.0
 
 dev_dependencies:
   flutter_test:

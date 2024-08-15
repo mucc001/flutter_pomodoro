@@ -13,6 +13,9 @@ class SettingsScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
+
     return Dialog(
       backgroundColor: Colors.transparent,
       insetPadding: const EdgeInsets.all(16),
@@ -20,8 +23,8 @@ class SettingsScreen extends ConsumerWidget {
         child: Column(
           children: [
             Container(
-              width: 327,
-              height: 575,
+              width: screenWidth * 0.87,
+              height: screenHeight * 0.86,
               clipBehavior: Clip.antiAlias,
               decoration: const BoxDecoration(),
               child: Stack(
@@ -31,8 +34,8 @@ class SettingsScreen extends ConsumerWidget {
                     left: 0,
                     top: 0,
                     child: Container(
-                      width: 327,
-                      height: 549,
+                      width: screenWidth * 0.87,
+                      height: screenHeight * 0.82,
                       decoration: ShapeDecoration(
                         color: Colors.white,
                         shape: RoundedRectangleBorder(
@@ -44,9 +47,9 @@ class SettingsScreen extends ConsumerWidget {
                   const ApplyButton(),
                   //Settings title and the close button
                   Positioned(
-                    left: 24,
-                    top: 24,
-                    right: 24,
+                    left: screenWidth * 0.064,
+                    top: screenWidth * 0.064,
+                    right: screenWidth * 0.064,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -56,8 +59,6 @@ class SettingsScreen extends ConsumerWidget {
                             color: Color(0xFF161932),
                             fontSize: 20,
                             fontWeight: FontWeight.w700,
-                            height:
-                                1.2, // Adjust this to match the spacing you need
                           ),
                         ),
                         GestureDetector(
@@ -75,10 +76,10 @@ class SettingsScreen extends ConsumerWidget {
                             ref.read(tempFontSelectionProvider.notifier).state =
                                 ref.read(fontSelectionProvider);
                           },
-                          child: const Icon(
+                          child: Icon(
                             Icons.close,
                             color: Colors.black,
-                            size: 24.0,
+                            size: screenWidth * 0.064,
                           ),
                         ),
                       ],
@@ -87,11 +88,11 @@ class SettingsScreen extends ConsumerWidget {
                   const ColorButtons(),
                   // Time sections
                   Positioned(
-                    left: 163,
-                    top: 126,
+                    left: screenWidth * 0.435,
+                    top: screenHeight * 0.19,
                     child: Container(
-                      width: 140,
-                      height: 40,
+                      width: screenWidth * 0.37,
+                      height: screenHeight * 0.06,
                       clipBehavior: Clip.antiAlias,
                       decoration: const BoxDecoration(),
                       child: Stack(
@@ -100,8 +101,8 @@ class SettingsScreen extends ConsumerWidget {
                             left: 0,
                             top: 0,
                             child: Container(
-                              width: 140,
-                              height: 40,
+                              width: screenWidth * 0.37,
+                              height: screenHeight * 0.06,
                               decoration: ShapeDecoration(
                                 color: const Color(0xFFEFF1FA),
                                 shape: RoundedRectangleBorder(
@@ -120,10 +121,10 @@ class SettingsScreen extends ConsumerWidget {
                       ),
                     ),
                   ),
-                  const Positioned(
+                  Positioned(
                     left: 23,
-                    top: 141,
-                    child: Opacity(
+                    top: screenHeight * 0.21,
+                    child: const Opacity(
                       opacity: 0.40,
                       child: Text(
                         'pomodoro',
@@ -138,20 +139,20 @@ class SettingsScreen extends ConsumerWidget {
                   ),
                   Positioned(
                     left: 23,
-                    top: 174,
+                    top: screenHeight * 0.26,
                     child: Container(
-                      width: 280,
-                      height: 40,
+                      width: screenWidth * 0.75,
+                      height: screenHeight * 0.06,
                       clipBehavior: Clip.antiAlias,
                       decoration: const BoxDecoration(),
                       child: Stack(
                         children: [
                           Positioned(
-                            left: 140,
+                            left: screenWidth * 0.37,
                             top: 0,
                             child: Container(
-                              width: 140,
-                              height: 40,
+                              width: screenWidth * 0.37,
+                              height: screenHeight * 0.06,
                               clipBehavior: Clip.antiAlias,
                               decoration: const BoxDecoration(),
                               child: Stack(
@@ -160,8 +161,8 @@ class SettingsScreen extends ConsumerWidget {
                                     left: 0,
                                     top: 0,
                                     child: Container(
-                                      width: 140,
-                                      height: 40,
+                                      width: screenWidth * 0.37,
+                                      height: screenHeight * 0.06,
                                       decoration: ShapeDecoration(
                                         color: const Color(0xFFEFF1FA),
                                         shape: RoundedRectangleBorder(
@@ -179,7 +180,7 @@ class SettingsScreen extends ConsumerWidget {
                                             tempShortBreakInitProvider),
                                   ),
                                   Positioned(
-                                    left: 112,
+                                    left: screenWidth * 0.31,
                                     top: 12,
                                     child: Container(width: 12, height: 17),
                                   ),
@@ -209,20 +210,20 @@ class SettingsScreen extends ConsumerWidget {
                   ),
                   Positioned(
                     left: 23,
-                    top: 222,
+                    top: screenHeight * 0.33,
                     child: Container(
-                      width: 280,
-                      height: 40,
+                      width: screenWidth * 0.75,
+                      height: screenHeight * 0.06,
                       clipBehavior: Clip.antiAlias,
                       decoration: const BoxDecoration(),
                       child: Stack(
                         children: [
                           Positioned(
-                            left: 140,
+                            left: screenWidth * 0.37,
                             top: 0,
                             child: Container(
-                              width: 140,
-                              height: 40,
+                              width: screenWidth * 0.37,
+                              height: screenHeight * 0.06,
                               clipBehavior: Clip.antiAlias,
                               decoration: const BoxDecoration(),
                               child: Stack(
@@ -231,8 +232,8 @@ class SettingsScreen extends ConsumerWidget {
                                     left: 0,
                                     top: 0,
                                     child: Container(
-                                      width: 140,
-                                      height: 40,
+                                      width: screenWidth * 0.37,
+                                      height: screenHeight * 0.06,
                                       decoration: ShapeDecoration(
                                         color: const Color(0xFFEFF1FA),
                                         shape: RoundedRectangleBorder(
@@ -250,7 +251,7 @@ class SettingsScreen extends ConsumerWidget {
                                     ),
                                   ),
                                   Positioned(
-                                    left: 112,
+                                    left: screenWidth * 0.31,
                                     top: 12,
                                     child: Container(width: 12, height: 17),
                                   ),
@@ -278,10 +279,10 @@ class SettingsScreen extends ConsumerWidget {
                       ),
                     ),
                   ),
-                  const Positioned(
-                    left: 93,
-                    top: 97,
-                    child: Text(
+                  Positioned(
+                    left: screenWidth * 0.24,
+                    top: screenHeight * 0.145,
+                    child: const Text(
                       'TIME (MINUTES)',
                       textAlign: TextAlign.center,
                       style: TextStyle(
@@ -293,10 +294,10 @@ class SettingsScreen extends ConsumerWidget {
                       ),
                     ),
                   ),
-                  const Positioned(
-                    left: 143,
-                    top: 311,
-                    child: Text(
+                  Positioned(
+                    left: screenWidth * 0.37,
+                    top: screenHeight * 0.465,
+                    child: const Text(
                       'FONT',
                       textAlign: TextAlign.center,
                       style: TextStyle(
@@ -308,10 +309,10 @@ class SettingsScreen extends ConsumerWidget {
                       ),
                     ),
                   ),
-                  const Positioned(
-                    left: 136,
-                    top: 421,
-                    child: Text(
+                  Positioned(
+                    left: screenWidth * 0.35,
+                    top: screenHeight * 0.63,
+                    child: const Text(
                       'COLOR',
                       textAlign: TextAlign.center,
                       style: TextStyle(
@@ -324,11 +325,11 @@ class SettingsScreen extends ConsumerWidget {
                     ),
                   ),
                   Positioned(
-                    left: 88,
-                    top: 340,
+                    left: screenWidth * 0.24,
+                    top: screenHeight * 0.51,
                     child: Container(
-                      width: 152,
-                      height: 40,
+                      width: screenWidth * 0.4,
+                      height: screenHeight * 0.06,
                       child: const Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -353,36 +354,36 @@ class SettingsScreen extends ConsumerWidget {
                   ),
                   Positioned(
                     left: 0,
-                    top: 72,
+                    top: screenHeight * 0.11,
                     child: Container(
-                      width: 327,
+                      width: screenWidth * 0.87,
                       height: 1,
                       decoration: const BoxDecoration(color: Color(0xFFE2E1E1)),
                     ),
                   ),
                   Positioned(
                     left: 24,
-                    top: 286,
+                    top: screenHeight * 0.43,
                     child: Container(
-                      width: 280,
+                      width: screenWidth * 0.75,
                       height: 1,
                       decoration: const BoxDecoration(color: Color(0xFFE2E1E1)),
                     ),
                   ),
                   Positioned(
                     left: 24,
-                    top: 286,
+                    top: screenHeight * 0.43,
                     child: Container(
-                      width: 280,
+                      width: screenWidth * 0.75,
                       height: 1,
                       decoration: const BoxDecoration(color: Color(0xFFE2E1E1)),
                     ),
                   ),
                   Positioned(
                     left: 24,
-                    top: 404,
+                    top: screenHeight * 0.61,
                     child: Container(
-                      width: 280,
+                      width: screenWidth * 0.75,
                       height: 1,
                       decoration: const BoxDecoration(color: Color(0xFFE2E1E1)),
                     ),

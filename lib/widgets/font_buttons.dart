@@ -18,13 +18,17 @@ class FontButton extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final selectedFont = ref.watch(tempFontSelectionProvider);
 
+    final screenWidth = MediaQuery.of(context).size.width;
+    final buttonSize = screenWidth * 0.1; // Button size is 10% of screen width
+    final fontSize = screenWidth * 0.04; // Font size is 4% of screen width
+
     return GestureDetector(
       onTap: () {
         ref.read(tempFontSelectionProvider.notifier).state = fontFamily;
       },
       child: Container(
-        width: 40,
-        height: 40,
+        width: buttonSize,
+        height: buttonSize,
         decoration: ShapeDecoration(
           color: selectedFont == fontFamily
               ? const Color(0xFF161932)
@@ -36,7 +40,7 @@ class FontButton extends ConsumerWidget {
             'Aa',
             style: TextStyle(
               color: selectedFont == fontFamily ? Colors.white : textColor,
-              fontSize: 15,
+              fontSize: fontSize,
               fontFamily: fontFamily,
               fontWeight: FontWeight.w700,
             ),
