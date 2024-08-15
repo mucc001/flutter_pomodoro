@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'package:pomodoro/providers/settings_provider.dart';
 import 'package:pomodoro/screens/pomodoro_screen.dart';
+import 'package:pomodoro/theme/theme.dart';
 
 double getResponsiveFontSize(BuildContext context, double baseFontSize) {
   final screenWidth = MediaQuery.of(context).size.width;
@@ -18,10 +20,14 @@ class MyApp extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // final screenSize = MediaQuery.of(context).size;
-    return const MaterialApp(
+    String fontSelection = ref.watch(fontSelectionProvider);
+
+    return MaterialApp(
+      theme: ThemeData(
+        textTheme: getCustomTextTheme(context, fontSelection),
+      ),
       debugShowCheckedModeBanner: false,
-      home: PomodoroScreen(),
+      home: const PomodoroScreen(),
     );
   }
 }

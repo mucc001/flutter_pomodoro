@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:pomodoro/providers/settings_provider.dart';
 
+import 'package:pomodoro/providers/settings_provider.dart';
 import 'package:pomodoro/screens/settings_screen.dart';
 import 'package:pomodoro/theme/theme.dart';
 import 'package:pomodoro/providers/timer_provider.dart';
@@ -52,7 +52,9 @@ class PomodoroScreen extends ConsumerWidget {
         backgroundColor: AppColors.backgroundDark,
         body: SafeArea(
           child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 32),
+            padding: EdgeInsets.symmetric(
+                horizontal: screenWidth * 0.064,
+                vertical: screenHeight * 0.047),
             decoration: const BoxDecoration(color: Color(0xFF1E213F)),
             child: Column(
               mainAxisSize: MainAxisSize.min,
@@ -65,95 +67,62 @@ class PomodoroScreen extends ConsumerWidget {
                   style: TextStyle(
                     color: Color(0xFFD7E0FF),
                     fontSize: 24,
-                    fontFamily: 'Kumbh Sans',
                     fontWeight: FontWeight.w700,
                     height: 1.2,
                     overflow: TextOverflow.ellipsis,
                   ),
                 ),
-                const SizedBox(height: 57),
+                SizedBox(height: screenHeight * 0.07),
+                // Tab bar
                 Container(
+                  width: screenWidth * 0.87,
+                  height: screenHeight * 0.09,
                   decoration: ShapeDecoration(
                     color: const Color(0xFF161932),
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(31.50),
+                      borderRadius:
+                          BorderRadius.circular(screenHeight * 0.04), //31.5
                     ),
                   ),
-                  // width: screenWidth * 0.9,
-                  // height: screenHeight * 0.8,
-                  // padding: EdgeInsets.symmetric(
-                  //   horizontal: screenWidth * 0.06,
-                  //   vertical: screenHeight * 0.04,
-                  // ),
-
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Container(
-                        // width: screenWidth * 0.87,
-                        // height: screenHeight * 0.08,
-                        // decoration: ShapeDecoration(
-                        //   color: AppColors.overlayDark,
-                        //   shape: RoundedRectangleBorder(
-                        //     borderRadius:
-                        //         BorderRadius.circular(screenHeight * 0.04),
-                        //   ),
-                        // ),
-
-                        decoration: ShapeDecoration(
-                          color: const Color(0xFF161932),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(31.50),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: List.generate(tabTitles.length, (index) {
+                      return GestureDetector(
+                        onTap: () {
+                          ref.read(selectedTabProvider.notifier).state = index;
+                        },
+                        child: Container(
+                          width: screenWidth * 0.28,
+                          height: screenHeight * 0.07,
+                          decoration: ShapeDecoration(
+                            color: selectedTab == index
+                                ? colorMap[ref.watch(colorProvider)]
+                                : Colors.transparent,
+                            shape: RoundedRectangleBorder(
+                              borderRadius:
+                                  BorderRadius.circular(screenHeight * 0.04),
+                            ),
+                          ),
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 10, vertical: 12),
+                          alignment: Alignment.center,
+                          child: Text(
+                            tabTitles[index],
+                            style: TextStyle(
+                              color: selectedTab == index
+                                  ? AppColors.textDark
+                                  : AppColors.textFill.withOpacity(0.4),
+                              fontSize: 12,
+                              fontWeight: FontWeight.w700,
+                              overflow: TextOverflow.ellipsis,
+                            ),
                           ),
                         ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          //crossAxisAlignment: CrossAxisAlignment.center,
-                          children: List.generate(tabTitles.length, (index) {
-                            return GestureDetector(
-                              onTap: () {
-                                ref.read(selectedTabProvider.notifier).state =
-                                    index;
-                              },
-                              child: Container(
-                                width: screenWidth * 0.28,
-                                height: screenHeight * 0.06,
-                                decoration: ShapeDecoration(
-                                  color: selectedTab == index
-                                      ? colorMap[ref.watch(colorProvider)]
-                                      : Colors.transparent,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(
-                                        screenHeight * 0.04), //26.5
-                                  ),
-                                ),
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 20, vertical: 12),
-                                //alignment: Alignment.center,
-                                child: Text(
-                                  tabTitles[index],
-                                  style: TextStyle(
-                                    color: selectedTab == index
-                                        ? AppColors.textDark
-                                        : AppColors.textFill.withOpacity(0.4),
-                                    fontSize: 12,
-                                    fontFamily: 'Kumbh Sans',
-                                    fontWeight: FontWeight.w700,
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
-                                ),
-                              ),
-                            );
-                          }),
-                        ),
-                      ),
-                    ],
+                      );
+                    }),
                   ),
                 ),
-                const SizedBox(height: 57), //screenHeight * 0.07
-                //may try expanded
+                SizedBox(height: screenHeight * 0.07),
                 Flexible(
                   flex: 1,
                   child: LayoutBuilder(
@@ -170,8 +139,6 @@ class PomodoroScreen extends ConsumerWidget {
                             ref.read(timerProvider.notifier).pause();
                           }
                         },
-                        //0.037 larger
-                        // ignore: sized_box_for_whitespace
                         child: Container(
                           width: constraints.maxWidth * 0.9,
                           height: constraints.maxWidth * 0.9,
@@ -221,7 +188,9 @@ class PomodoroScreen extends ConsumerWidget {
                                   width: constraints.maxWidth * (0.8 - 0.024),
                                   height: constraints.maxWidth * (0.8 - 0.024),
                                   child: CircularProgressIndicator(
-                                    value: (time.duration ~/ 60 + 1) / initTime,
+                                    value: time.duration ~/ 60 == 0
+                                        ? 0
+                                        : (time.duration ~/ 60 + 1) / initTime,
                                     color: colorMap[ref.watch(colorProvider)],
                                     strokeWidth: constraints.maxWidth * 0.024,
                                     strokeCap: StrokeCap.round,
@@ -237,7 +206,6 @@ class PomodoroScreen extends ConsumerWidget {
                                       style: TextStyle(
                                         color: const Color(0xFFD6E0FE),
                                         fontSize: constraints.maxWidth * 0.2,
-                                        fontFamily: 'Kumbh Sans',
                                         fontWeight: FontWeight.w700,
                                       ),
                                     ),
@@ -247,7 +215,6 @@ class PomodoroScreen extends ConsumerWidget {
                                       style: const TextStyle(
                                         color: Color(0xFFD7E0FF),
                                         fontSize: 14,
-                                        fontFamily: 'Kumbh Sans',
                                         fontWeight: FontWeight.w700,
                                         letterSpacing: 13.12,
                                       ),
@@ -262,13 +229,13 @@ class PomodoroScreen extends ConsumerWidget {
                     },
                   ),
                 ),
-                const SizedBox(height: 57),
+                SizedBox(height: screenHeight * 0.07),
                 Padding(
                   padding: const EdgeInsets.only(bottom: 30),
                   child: IconButton(
                     icon: const Icon(
                       Icons.settings,
-                      color: Colors.white,
+                      color: AppColors.textFill,
                       size: 32,
                     ),
                     onPressed: () {

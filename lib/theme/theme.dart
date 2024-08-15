@@ -15,113 +15,24 @@ class AppColors {
   static const buttonFill = Color(0xFFEFF1FA);
 }
 
-class DynamicTextStyles {
-  final String fontFamily;
-  final Color fontColor;
+TextTheme getCustomTextTheme(BuildContext context, String fontSelection) {
+  final baseTheme = Theme.of(context).textTheme;
 
-  DynamicTextStyles(this.fontFamily, this.fontColor);
+  TextTheme Function(TextTheme) selectedFontTheme;
 
-  TextStyle getH1({color = AppColors.textWhite, fontFamily = 'Kumbh Sans'}) {
-    return _getTextStyle(
-      fontSize: 100,
-      fontWeight: FontWeight.bold,
-      color: color,
-      lineHeight: 120,
-      letterSpacing: -5,
-      fontFamily: fontFamily,
-    );
+  switch (fontSelection) {
+    case 'Kumbh Sans':
+      selectedFontTheme = GoogleFonts.kumbhSansTextTheme;
+      break;
+    case 'Roboto Slab':
+      selectedFontTheme = GoogleFonts.robotoSlabTextTheme;
+      break;
+    case 'Space Mono':
+      selectedFontTheme = GoogleFonts.spaceMonoTextTheme;
+      break;
+    default:
+      selectedFontTheme = GoogleFonts.kumbhSansTextTheme;
   }
 
-  TextStyle getH2({color = AppColors.textWhite, fontFamily = 'Kumbh Sans'}) {
-    return _getTextStyle(
-      fontSize: 28,
-      fontWeight: FontWeight.bold,
-      color: color,
-      lineHeight: 34,
-      fontFamily: fontFamily,
-    );
-  }
-
-  TextStyle getH3({color = AppColors.textWhite, fontFamily = 'Kumbh Sans'}) {
-    return _getTextStyle(
-      fontSize: 16,
-      fontWeight: FontWeight.bold,
-      color: color,
-      lineHeight: 19,
-      letterSpacing: 15,
-      fontFamily: fontFamily,
-    );
-  }
-
-  TextStyle getH4({color = AppColors.textWhite, fontFamily = 'Kumbh Sans'}) {
-    return _getTextStyle(
-      fontSize: 13,
-      fontWeight: FontWeight.bold,
-      color: color,
-      lineHeight: 16,
-      letterSpacing: 5,
-      fontFamily: fontFamily,
-    );
-  }
-
-  TextStyle getBody1({color = AppColors.textWhite, fontFamily = 'Kumbh Sans'}) {
-    return _getTextStyle(
-      fontSize: 14,
-      fontWeight: FontWeight.bold,
-      color: color,
-      lineHeight: 18,
-      fontFamily: fontFamily,
-    );
-  }
-
-  TextStyle getBody2({color = AppColors.textWhite, fontFamily = 'Kumbh Sans'}) {
-    return _getTextStyle(
-      fontSize: 12,
-      fontWeight: FontWeight.bold,
-      color: color,
-      lineHeight: 14,
-      fontFamily: fontFamily,
-    );
-  }
-
-  TextStyle _getTextStyle({
-    required double fontSize,
-    required Color color,
-    required double lineHeight,
-    required String fontFamily,
-    double? letterSpacing,
-    FontWeight? fontWeight,
-  }) {
-    final TextStyle textStyle;
-
-    switch (fontFamily) {
-      case 'Kumbh Sans':
-        textStyle = GoogleFonts.kumbhSans(
-          fontSize: fontSize,
-          fontWeight: fontWeight,
-          color: color,
-          height: lineHeight / fontSize,
-          letterSpacing: letterSpacing,
-        );
-      case 'Roboto Slab':
-        textStyle = GoogleFonts.robotoSlab(
-          fontSize: fontSize,
-          fontWeight: fontWeight,
-          color: color,
-          height: lineHeight / fontSize,
-          letterSpacing: letterSpacing,
-        );
-      case 'Space Mono':
-        textStyle = GoogleFonts.spaceMono(
-          fontSize: fontSize,
-          fontWeight: fontWeight,
-          color: color,
-          height: lineHeight / fontSize,
-          letterSpacing: letterSpacing,
-        );
-      default:
-        throw ArgumentError('Invalid font family: $fontFamily');
-    }
-    return textStyle;
-  }
+  return selectedFontTheme(baseTheme);
 }

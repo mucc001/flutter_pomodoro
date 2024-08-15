@@ -11,3 +11,7 @@ Map<int, Color> colorMap = {
   1: AppColors.primaryBlue,
   2: AppColors.primaryPurple,
 };
+
+final fontSelectionProvider = StateProvider<String>((ref) => 'Kumbh Sans');
+
+final tempFontSelectionProvider = StateProvider<String>((ref) => 'Kumbh Sans');

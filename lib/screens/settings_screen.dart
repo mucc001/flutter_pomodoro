@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import 'package:pomodoro/providers/timer_provider.dart';
+import 'package:pomodoro/widgets/apply_button.dart';
+import 'package:pomodoro/widgets/font_buttons.dart';
 import 'package:pomodoro/widgets/stepper.dart';
 import 'package:pomodoro/providers/settings_provider.dart';
 import 'package:pomodoro/widgets/color_buttons.dart';
@@ -38,59 +41,7 @@ class SettingsScreen extends ConsumerWidget {
                       ),
                     ),
                   ),
-                  //Apply button
-                  Positioned(
-                    left: 94,
-                    top: 522,
-                    child: Container(
-                      width: 140,
-                      height: 53,
-                      clipBehavior: Clip.antiAlias,
-                      decoration: const BoxDecoration(),
-                      child: Stack(
-                        children: [
-                          Positioned(
-                            left: 0,
-                            top: 0,
-                            child: ElevatedButton(
-                              onPressed: () {
-                                ref.read(pomodoroInitProvider.notifier).state =
-                                    ref.read(tempPomodoroInitProvider);
-                                ref
-                                        .read(shortBreakInitProvider.notifier)
-                                        .state =
-                                    ref.read(tempShortBreakInitProvider);
-                                ref.read(longBreakInitProvider.notifier).state =
-                                    ref.read(tempLongBreakInitProvider);
-                                ref.read(colorProvider.notifier).state =
-                                    ref.read(tempColorProvider);
-                              },
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor:
-                                    colorMap[ref.watch(colorProvider)],
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(26.50),
-                                ),
-                                fixedSize: const Size(
-                                    140, 53), // Width and Height of the button
-                              ),
-                              child: const Text(
-                                'Apply',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 16,
-                                  fontFamily: 'Kumbh Sans',
-                                  fontWeight: FontWeight.w700,
-                                  height: 0,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
+                  const ApplyButton(),
                   //Settings title and the close button
                   Positioned(
                     left: 24,
@@ -104,7 +55,6 @@ class SettingsScreen extends ConsumerWidget {
                           style: TextStyle(
                             color: Color(0xFF161932),
                             fontSize: 20,
-                            fontFamily: 'Kumbh Sans',
                             fontWeight: FontWeight.w700,
                             height:
                                 1.2, // Adjust this to match the spacing you need
@@ -122,6 +72,8 @@ class SettingsScreen extends ConsumerWidget {
                                 ref.read(longBreakInitProvider);
                             ref.read(tempColorProvider.notifier).state =
                                 ref.read(colorProvider);
+                            ref.read(tempFontSelectionProvider.notifier).state =
+                                ref.read(fontSelectionProvider);
                           },
                           child: const Icon(
                             Icons.close,
@@ -178,7 +130,6 @@ class SettingsScreen extends ConsumerWidget {
                         style: TextStyle(
                           color: Color(0xFF1E213F),
                           fontSize: 12,
-                          fontFamily: 'Kumbh Sans',
                           fontWeight: FontWeight.w700,
                           height: 0,
                         ),
@@ -246,7 +197,6 @@ class SettingsScreen extends ConsumerWidget {
                                 style: TextStyle(
                                   color: Color(0xFF1E213F),
                                   fontSize: 12,
-                                  fontFamily: 'Kumbh Sans',
                                   fontWeight: FontWeight.w700,
                                   height: 0,
                                 ),
@@ -318,7 +268,6 @@ class SettingsScreen extends ConsumerWidget {
                                 style: TextStyle(
                                   color: Color(0xFF1E213F),
                                   fontSize: 12,
-                                  fontFamily: 'Kumbh Sans',
                                   fontWeight: FontWeight.w700,
                                   height: 0,
                                 ),
@@ -338,7 +287,6 @@ class SettingsScreen extends ConsumerWidget {
                       style: TextStyle(
                         color: Color(0xFF161932),
                         fontSize: 11,
-                        fontFamily: 'Kumbh Sans',
                         fontWeight: FontWeight.w700,
                         height: 0,
                         letterSpacing: 4.23,
@@ -354,7 +302,6 @@ class SettingsScreen extends ConsumerWidget {
                       style: TextStyle(
                         color: Color(0xFF161932),
                         fontSize: 11,
-                        fontFamily: 'Kumbh Sans',
                         fontWeight: FontWeight.w700,
                         height: 0,
                         letterSpacing: 4.23,
@@ -370,7 +317,6 @@ class SettingsScreen extends ConsumerWidget {
                       style: TextStyle(
                         color: Color(0xFF161932),
                         fontSize: 11,
-                        fontFamily: 'Kumbh Sans',
                         fontWeight: FontWeight.w700,
                         height: 0,
                         letterSpacing: 4.23,
@@ -383,133 +329,23 @@ class SettingsScreen extends ConsumerWidget {
                     child: Container(
                       width: 152,
                       height: 40,
-                      child: Stack(
+                      child: const Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Positioned(
-                            left: 0,
-                            top: 0,
-                            child: Container(
-                              width: 40,
-                              height: 40,
-                              clipBehavior: Clip.antiAlias,
-                              decoration: const BoxDecoration(),
-                              child: Stack(
-                                children: [
-                                  Positioned(
-                                    left: 0,
-                                    top: 0,
-                                    child: Container(
-                                      width: 40,
-                                      height: 40,
-                                      decoration: const ShapeDecoration(
-                                        color: Color(0xFF161932),
-                                        shape: OvalBorder(),
-                                      ),
-                                    ),
-                                  ),
-                                  const Positioned(
-                                    left: 10,
-                                    top: 13,
-                                    child: Text(
-                                      'Aa',
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 15,
-                                        fontFamily: 'Kumbh Sans',
-                                        fontWeight: FontWeight.w700,
-                                        height: 0,
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
+                          FontButton(
+                            fontFamily: 'Kumbh Sans',
+                            backgroundColor: Color(0xFFEEF1F9),
+                            textColor: Color(0xFF1E213F),
                           ),
-                          Positioned(
-                            left: 56,
-                            top: 0,
-                            child: Container(
-                              width: 40,
-                              height: 40,
-                              clipBehavior: Clip.antiAlias,
-                              decoration: const BoxDecoration(),
-                              child: Stack(
-                                children: [
-                                  Positioned(
-                                    left: 0,
-                                    top: 0,
-                                    child: Container(
-                                      width: 40,
-                                      height: 40,
-                                      decoration: const ShapeDecoration(
-                                        color: Color(0xFFEEF1F9),
-                                        shape: OvalBorder(),
-                                      ),
-                                    ),
-                                  ),
-                                  const Positioned(
-                                    left: 10,
-                                    top: 9,
-                                    child: Opacity(
-                                      opacity: 0.73,
-                                      child: Text(
-                                        'Aa',
-                                        style: TextStyle(
-                                          color: Color(0xFF1E213F),
-                                          fontSize: 15,
-                                          fontFamily: 'Roboto Slab',
-                                          fontWeight: FontWeight.w400,
-                                          height: 0,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
+                          FontButton(
+                            fontFamily: 'Roboto Slab',
+                            backgroundColor: Color(0xFFEEF1F9),
+                            textColor: Color(0xFF1E213F),
                           ),
-                          Positioned(
-                            left: 112,
-                            top: 0,
-                            child: Container(
-                              width: 40,
-                              height: 40,
-                              clipBehavior: Clip.antiAlias,
-                              decoration: const BoxDecoration(),
-                              child: Stack(
-                                children: [
-                                  Positioned(
-                                    left: 0,
-                                    top: 0,
-                                    child: Container(
-                                      width: 40,
-                                      height: 40,
-                                      decoration: const ShapeDecoration(
-                                        color: Color(0xFFEEF1F9),
-                                        shape: OvalBorder(),
-                                      ),
-                                    ),
-                                  ),
-                                  const Positioned(
-                                    left: 10,
-                                    top: 8,
-                                    child: Opacity(
-                                      opacity: 0.73,
-                                      child: Text(
-                                        'Aa',
-                                        style: TextStyle(
-                                          color: Color(0xFF1E213F),
-                                          fontSize: 15,
-                                          fontFamily: 'Space Mono',
-                                          fontWeight: FontWeight.w700,
-                                          height: 0,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
+                          FontButton(
+                            fontFamily: 'Space Mono',
+                            backgroundColor: Color(0xFFEEF1F9),
+                            textColor: Color(0xFF1E213F),
                           ),
                         ],
                       ),

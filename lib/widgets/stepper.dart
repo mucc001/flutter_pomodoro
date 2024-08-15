@@ -15,10 +15,7 @@ class CustomStepper extends ConsumerWidget {
       children: [
         Text(
           '$counter',
-          style: const TextStyle(
-              fontSize: 14,
-              fontFamily: 'Kumbh Sans',
-              fontWeight: FontWeight.w700),
+          style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w700),
         ),
         // Adjust space between arrows and text
         const SizedBox(width: 80),
