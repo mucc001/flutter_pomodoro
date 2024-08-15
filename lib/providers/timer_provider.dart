@@ -32,7 +32,7 @@ final shortTimerProvider = StateNotifierProvider<TimerNotifier, TimerModel>(
 class TimerNotifier extends StateNotifier<TimerModel> {
   TimerNotifier(this.ref, this.initDurationProvider)
       : super(TimerModel(_durationString(ref.read(initDurationProvider)),
-            ButtonState.initial)) {
+            ButtonState.initial, ref.read(initDurationProvider))) {
     _initialize();
   }
 
@@ -45,9 +45,7 @@ class TimerNotifier extends StateNotifier<TimerModel> {
   void _initialize() {
     final int sessionDuration = ref.read(initDurationProvider);
     state = TimerModel(
-      _durationString(sessionDuration),
-      ButtonState.initial,
-    );
+        _durationString(sessionDuration), ButtonState.initial, sessionDuration);
   }
 
   static String _durationString(int duration) {
@@ -65,30 +63,34 @@ class TimerNotifier extends StateNotifier<TimerModel> {
   }
 
   void _startTimer() {
-    final int sessionDuration = ref.watch(initDurationProvider);
+    final int sessionDuration = ref.watch(initDurationProvider) * 60;
 
     _tickerSubscription?.cancel();
 
     _tickerSubscription =
         _ticker.tick(ticks: sessionDuration).listen((duration) {
-      state = TimerModel(_durationString(duration), ButtonState.started);
+      state =
+          TimerModel(_durationString(duration), ButtonState.started, duration);
     });
 
     _tickerSubscription?.onDone(() {
-      state = TimerModel(state.timeLeft, ButtonState.finished);
+      state = TimerModel(state.timeLeft, ButtonState.finished, 0);
     });
 
-    state = TimerModel(_durationString(sessionDuration), ButtonState.started);
+    state = TimerModel(
+        _durationString(sessionDuration), ButtonState.started, sessionDuration);
   }
 
   void _resumeTimer() {
     _tickerSubscription?.resume();
-    state = TimerModel(state.timeLeft, ButtonState.started);
+    state =
+        TimerModel(state.timeLeft, ButtonState.started, _ticker._currentTick);
   }
 
   void pause() {
     _tickerSubscription?.pause();
-    state = TimerModel(state.timeLeft, ButtonState.paused);
+    state =
+        TimerModel(state.timeLeft, ButtonState.paused, _ticker._currentTick);
   }
 
   void reset() {
@@ -104,10 +106,18 @@ class TimerNotifier extends StateNotifier<TimerModel> {
 }
 
 class Ticker {
+  int _currentTick = 0;
   Stream<int> tick({required int ticks}) {
     return Stream.periodic(
       const Duration(seconds: 1),
-      (x) => ticks - x - 1,
+      (x) {
+        _currentTick = ticks - x - 1;
+        return _currentTick;
+      },
     ).take(ticks);
+  }
+
+  int getCurrentTick() {
+    return _currentTick;
   }
 }

@@ -28,26 +28,31 @@ class PomodoroScreen extends ConsumerWidget {
     List<String> tabTitles = ['pomodoro', 'short break', 'long break'];
     TimerModel time;
     StateNotifierProvider<TimerNotifier, TimerModel> timerProvider;
+    int initTime;
     switch (selectedTab) {
       case 0:
         time = ref.watch(pomoTimerProvider);
         timerProvider = pomoTimerProvider;
+        initTime = ref.watch(pomodoroInitProvider);
       case 1:
         time = ref.watch(shortTimerProvider);
         timerProvider = shortTimerProvider;
+        initTime = ref.watch(shortBreakInitProvider);
       case 2:
         time = ref.watch(longTimerProvider);
         timerProvider = longTimerProvider;
+        initTime = ref.watch(longBreakInitProvider);
       default:
         time = ref.watch(pomoTimerProvider);
         timerProvider = pomoTimerProvider;
+        initTime = ref.watch(pomodoroInitProvider);
     }
     return Scaffold(
         backgroundColor: AppColors.backgroundDark,
         body: SafeArea(
           child: Container(
             padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 32),
-            decoration: BoxDecoration(color: Color(0xFF1E213F)),
+            decoration: const BoxDecoration(color: Color(0xFF1E213F)),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               mainAxisAlignment: MainAxisAlignment.start,
@@ -97,7 +102,7 @@ class PomodoroScreen extends ConsumerWidget {
                         // ),
 
                         decoration: ShapeDecoration(
-                          color: Color(0xFF161932),
+                          color: const Color(0xFF161932),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(31.50),
                           ),
@@ -146,7 +151,7 @@ class PomodoroScreen extends ConsumerWidget {
                     ],
                   ),
                 ),
-                SizedBox(height: 57), //screenHeight * 0.07
+                const SizedBox(height: 57), //screenHeight * 0.07
                 //may try expanded
                 Flexible(
                   flex: 1,
@@ -164,32 +169,34 @@ class PomodoroScreen extends ConsumerWidget {
                             ref.read(timerProvider.notifier).pause();
                           }
                         },
+                        //0.037 larger
+                        // ignore: sized_box_for_whitespace
                         child: Container(
-                          width: constraints.maxWidth * 0.8,
-                          height: constraints.maxWidth * 0.8,
+                          width: constraints.maxWidth * 0.9,
+                          height: constraints.maxWidth * 0.9,
                           child: Stack(
                             children: [
                               Container(
                                 decoration: ShapeDecoration(
                                   gradient: const LinearGradient(
-                                    begin: Alignment(-0.71, 0.71),
-                                    end: Alignment(0.71, -0.71),
+                                    begin: Alignment(1, 1),
+                                    end: Alignment(-1, -1),
                                     colors: [
                                       Color(0xFF2D325A),
                                       Color(0xFF0E1029)
                                     ],
                                   ),
-                                  shape: OvalBorder(),
+                                  shape: const OvalBorder(),
                                   shadows: [
                                     BoxShadow(
-                                      color: Color(0xFF12152F),
+                                      color: const Color(0xFF12152F),
                                       blurRadius: constraints.maxWidth * 0.266,
                                       offset: Offset(
                                           constraints.maxWidth * 0.133,
                                           constraints.maxWidth * 0.133),
                                     ),
                                     BoxShadow(
-                                      color: Color(0xFF272C5A),
+                                      color: const Color(0xFF272C5A),
                                       blurRadius: constraints.maxWidth * 0.266,
                                       offset: Offset(
                                           -constraints.maxWidth * 0.133,
@@ -199,22 +206,53 @@ class PomodoroScreen extends ConsumerWidget {
                                 ),
                               ),
                               Center(
+                                child: Container(
+                                  width: constraints.maxWidth * 0.8,
+                                  height: constraints.maxWidth * 0.8,
+                                  decoration: const ShapeDecoration(
+                                    color: Color(0xFF161932),
+                                    shape: OvalBorder(),
+                                  ),
+                                ),
+                              ),
+                              Center(
+                                child: SizedBox(
+                                  width: constraints.maxWidth * (0.8 - 0.024),
+                                  height: constraints.maxWidth * (0.8 - 0.024),
+                                  child: CircularProgressIndicator(
+                                    value: time.duration / initTime,
+                                    color: AppColors.primaryRed,
+                                    strokeWidth: constraints.maxWidth * 0.024,
+                                    strokeCap: StrokeCap.round,
+                                  ),
+                                ),
+                              ),
+
+                              // CircularProgressIndicator(
+                              //   value:
+                              //       0.7, // This can be dynamically set based on your timer progress
+                              //   backgroundColor: Color(0xFF2D325A),
+                              //   color: Color(0xFFD6E0FE),
+                              //   strokeWidth: constraints.maxWidth *
+                              //       0.05, // Adjust the thickness of the progress indicator
+                              // ),
+                              Center(
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Text(
                                       time.timeLeft,
                                       style: TextStyle(
-                                        color: Color(0xFFD6E0FE),
+                                        color: const Color(0xFFD6E0FE),
                                         fontSize: constraints.maxWidth * 0.2,
                                         fontFamily: 'Kumbh Sans',
                                         fontWeight: FontWeight.w700,
                                       ),
                                     ),
-                                    SizedBox(height: 20),
+                                    const SizedBox(height: 20),
                                     Text(
                                       buttonText[time.buttonState]!,
-                                      style: TextStyle(
+                                      style: const TextStyle(
                                         color: Color(0xFFD7E0FF),
                                         fontSize: 14,
                                         fontFamily: 'Kumbh Sans',
@@ -245,7 +283,7 @@ class PomodoroScreen extends ConsumerWidget {
                       showDialog<String>(
                         context: context,
                         builder: (BuildContext context) {
-                          return SettingsScreen();
+                          return const SettingsScreen();
                         },
                       );
                     },

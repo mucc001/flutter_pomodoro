@@ -15,27 +15,27 @@ class CustomStepper extends ConsumerWidget {
       children: [
         Text(
           '$counter',
-          style: TextStyle(
+          style: const TextStyle(
               fontSize: 14,
               fontFamily: 'Kumbh Sans',
               fontWeight: FontWeight.w700),
         ),
         // Adjust space between arrows and text
-        SizedBox(width: 80),
+        const SizedBox(width: 80),
         Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             IconButton(
-                icon: Icon(Icons.keyboard_arrow_up, size: 16),
+                icon: const Icon(Icons.keyboard_arrow_up, size: 16),
                 padding: EdgeInsets.zero,
-                constraints: BoxConstraints(),
+                constraints: const BoxConstraints(),
                 onPressed: () {
                   ref.read(timerProvider.notifier).state++;
                 }),
             IconButton(
-                icon: Icon(Icons.keyboard_arrow_down, size: 16),
+                icon: const Icon(Icons.keyboard_arrow_down, size: 16),
                 padding: EdgeInsets.zero,
-                constraints: BoxConstraints(),
+                constraints: const BoxConstraints(),
                 onPressed: () {
                   if (counter > 0) {
                     ref.read(timerProvider.notifier).state--;
