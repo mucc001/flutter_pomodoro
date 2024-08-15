@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:pomodoro/providers/settings_provider.dart';
 
 import 'package:pomodoro/screens/settings_screen.dart';
 import 'package:pomodoro/theme/theme.dart';
@@ -121,7 +122,7 @@ class PomodoroScreen extends ConsumerWidget {
                                 height: screenHeight * 0.06,
                                 decoration: ShapeDecoration(
                                   color: selectedTab == index
-                                      ? AppColors.primaryRed
+                                      ? colorMap[ref.watch(colorProvider)]
                                       : Colors.transparent,
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(
@@ -220,22 +221,13 @@ class PomodoroScreen extends ConsumerWidget {
                                   width: constraints.maxWidth * (0.8 - 0.024),
                                   height: constraints.maxWidth * (0.8 - 0.024),
                                   child: CircularProgressIndicator(
-                                    value: time.duration / initTime,
-                                    color: AppColors.primaryRed,
+                                    value: (time.duration ~/ 60 + 1) / initTime,
+                                    color: colorMap[ref.watch(colorProvider)],
                                     strokeWidth: constraints.maxWidth * 0.024,
                                     strokeCap: StrokeCap.round,
                                   ),
                                 ),
                               ),
-
-                              // CircularProgressIndicator(
-                              //   value:
-                              //       0.7, // This can be dynamically set based on your timer progress
-                              //   backgroundColor: Color(0xFF2D325A),
-                              //   color: Color(0xFFD6E0FE),
-                              //   strokeWidth: constraints.maxWidth *
-                              //       0.05, // Adjust the thickness of the progress indicator
-                              // ),
                               Center(
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.center,

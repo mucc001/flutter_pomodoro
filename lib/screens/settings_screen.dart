@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pomodoro/providers/timer_provider.dart';
 import 'package:pomodoro/widgets/stepper.dart';
+import 'package:pomodoro/providers/settings_provider.dart';
+import 'package:pomodoro/widgets/color_buttons.dart';
 
 class SettingsScreen extends ConsumerWidget {
   const SettingsScreen({super.key});
@@ -60,13 +62,14 @@ class SettingsScreen extends ConsumerWidget {
                                     ref.read(tempShortBreakInitProvider);
                                 ref.read(longBreakInitProvider.notifier).state =
                                     ref.read(tempLongBreakInitProvider);
+                                ref.read(colorProvider.notifier).state =
+                                    ref.read(tempColorProvider);
                               },
                               style: ElevatedButton.styleFrom(
                                 backgroundColor:
-                                    const Color(0xFFF87070), // Background color
+                                    colorMap[ref.watch(colorProvider)],
                                 shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(
-                                      26.50), // Rounded corners
+                                  borderRadius: BorderRadius.circular(26.50),
                                 ),
                                 fixedSize: const Size(
                                     140, 53), // Width and Height of the button
@@ -110,6 +113,15 @@ class SettingsScreen extends ConsumerWidget {
                         GestureDetector(
                           onTap: () {
                             Navigator.of(context).pop();
+                            ref.read(tempPomodoroInitProvider.notifier).state =
+                                ref.read(pomodoroInitProvider);
+                            ref
+                                .read(tempShortBreakInitProvider.notifier)
+                                .state = ref.read(shortBreakInitProvider);
+                            ref.read(tempLongBreakInitProvider.notifier).state =
+                                ref.read(longBreakInitProvider);
+                            ref.read(tempColorProvider.notifier).state =
+                                ref.read(colorProvider);
                           },
                           child: const Icon(
                             Icons.close,
@@ -120,67 +132,7 @@ class SettingsScreen extends ConsumerWidget {
                       ],
                     ),
                   ),
-                  //Color button
-                  Positioned(
-                    left: 88,
-                    top: 450,
-                    child: Container(
-                      width: 152,
-                      height: 40,
-                      child: Stack(
-                        children: [
-                          Positioned(
-                            left: 0,
-                            top: 0,
-                            child: Container(
-                              width: 40,
-                              height: 40,
-                              child: Stack(
-                                children: [
-                                  Positioned(
-                                    left: 0,
-                                    top: 0,
-                                    child: Container(
-                                      width: 40,
-                                      height: 40,
-                                      decoration: const ShapeDecoration(
-                                        color: Color(0xFFF87070),
-                                        shape: OvalBorder(),
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                          Positioned(
-                            left: 56,
-                            top: 0,
-                            child: Container(
-                              width: 40,
-                              height: 40,
-                              decoration: const ShapeDecoration(
-                                color: Color(0xFF70F3F8),
-                                shape: OvalBorder(),
-                              ),
-                            ),
-                          ),
-                          Positioned(
-                            left: 112,
-                            top: 0,
-                            child: Container(
-                              width: 40,
-                              height: 40,
-                              decoration: const ShapeDecoration(
-                                color: Color(0xFFD881F8),
-                                shape: OvalBorder(),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
+                  const ColorButtons(),
                   // Time sections
                   Positioned(
                     left: 163,

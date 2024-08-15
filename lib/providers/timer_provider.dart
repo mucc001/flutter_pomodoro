@@ -43,7 +43,7 @@ class TimerNotifier extends StateNotifier<TimerModel> {
   StreamSubscription<int>? _tickerSubscription;
 
   void _initialize() {
-    final int sessionDuration = ref.read(initDurationProvider);
+    final int sessionDuration = ref.watch(initDurationProvider) * 60;
     state = TimerModel(
         _durationString(sessionDuration), ButtonState.initial, sessionDuration);
   }
